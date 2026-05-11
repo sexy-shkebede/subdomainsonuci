@@ -32,7 +32,7 @@
         }
 
         :root {
-            /* Темная розовая тема */
+            
             --md-sys-color-background: #1f1a1c;
             --md-sys-color-surface: #251e21;
             --md-sys-color-on-surface: #ece0e2;
@@ -47,7 +47,7 @@
         }
 
         body.light-mode {
-            /* Светлая розовая тема */
+            
             --md-sys-color-background: #fff1f3;
             --md-sys-color-surface: #fce8eb;
             --md-sys-color-on-surface: #201a1b;
@@ -194,7 +194,7 @@
             <div class="main-text">sonuci <span class="hashtag">#батонбос</span></div>
             <div class="secondary-text">Best Unity Modder</div>
             <div class="image-time-row">
-                <img src="sonuci1.jpg" alt="Profile" class="profile-image">
+                <img src="sonuci1.png" alt="Profile" class="profile-image">
                 <div class="time-wrapper">
                     <div class="time-label">местное время</div>
                     <div class="local-time" id="timeDisplay">00.00.00</div>
@@ -219,7 +219,6 @@
     </div>
 
     <script>
-        // TIME
         function updateTime() {
             const display = document.getElementById('timeDisplay');
             const warning = document.getElementById('warningText');
@@ -239,13 +238,13 @@
         updateTime();
         setInterval(updateTime, 1000);
 
-        // THEME FIX (Исправлено переключение темы)
+        
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light-mode');
         });
 
-        // RANDOM FACTS
+      
         const factsList = [
             "Факт №1: санука - лучший моддер игр на юнити",
             "Факт №2: у меня ляжки такие вкусняшки",
