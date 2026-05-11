@@ -272,18 +272,3 @@
     </script>
 </body>
 </html>
-         output.style.display = 'none';
-            setTimeout(() => {
-                let randomIndex;
-                do {
-                    randomIndex = Math.floor(Math.random() * factsList.length);
-                } while (lastIndices.includes(randomIndex));
-                lastIndices.push(randomIndex);
-                if (lastIndices.length > 2) lastIndices.shift();
-                output.textContent = factsList[randomIndex];
-                output.style.display = 'block';
-            }, 300);
-        });
-    </script>
-</body>
-</html>
