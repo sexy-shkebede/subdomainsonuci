@@ -1,23 +1,269 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=107289566', 'ym');
+
+    ym(107289566, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/107289566" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@sonuci </title>
+    <title>sonuci bio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
-        body { margin: 0; overflow: hidden; background: #fdfcff; } /* Цвет фона Material 3 */
-        .avatar {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background-image: url('sonuci1.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            will-change: transform;
+        @font-face {
+            font-family: 'Google Sans';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Google Sans Regular'), local(GoogleSans-Regular), url(https://fonts.gstatic.com/s/googlesans/v5/4UaGrENHsxJlGDuGo1OIlL3Owp4.woff2) format("woff2");
         }
+        
+        @font-face {
+            font-family: 'Google Sans';
+            font-style: normal;
+            font-weight: 500;
+            src: local('Google Sans Medium'), local('GoogleSans-Medium'), url(https://fonts.gstatic.com/s/googlesans/v11/4UabrENHsxJlGDuGo1OIlLU94YtzCwY.woff2) format('woff2');
+        }
+
+        :root {
+            --md-sys-color-background: #141218;
+            --md-sys-color-surface: #211f26;
+            --md-sys-color-on-surface: #e6e1e5;
+            --md-sys-color-on-surface-variant: #cac4d0;
+            --md-sys-color-primary-container: #4f378b;
+            --md-sys-color-on-primary-container: #eaddff;
+            --md-sys-color-error: #f2b8b5;
+            
+            --radius-main: 28px;
+            --radius-small: 8px; 
+        }
+
+        body.light-mode {
+            --md-sys-color-background: #fef7ff;
+            --md-sys-color-surface: #f3edf7;
+            --md-sys-color-on-surface: #1d1b20;
+            --md-sys-color-on-surface-variant: #49454f;
+            --md-sys-color-primary-container: #eaddff;
+            --md-sys-color-on-primary-container: #21005d;
+            --md-sys-color-error: #b3261e;
+        }
+
+        body {
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-surface);
+            font-family: 'Google Sans', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .top-card {
+            background-color: var(--md-sys-color-surface);
+            padding: 28px;
+            border-radius: var(--radius-main) var(--radius-main) var(--radius-small) var(--radius-small);
+        }
+
+        .main-text { font-size: 32px; font-weight: 500; margin-bottom: 2px; }
+        .hashtag { color: #d0bcff; }
+        body.light-mode .hashtag { color: #6750a4; }
+
+        .secondary-text {
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        .image-time-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+        .time-wrapper { text-align: right; }
+        .time-label { font-size: 11px; color: var(--md-sys-color-on-surface-variant); text-transform: uppercase; margin-bottom: 4px; }
+        .local-time { font-size: 36px; font-weight: 400; line-height: 1; }
+        .warning-text { color: var(--md-sys-color-error); font-size: 12px; font-weight: 500; text-transform: uppercase; margin-top: 8px; display: none; }
+
+        .action-button {
+            width: 100%;
+            padding: 20px;
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border: none;
+            border-radius: var(--radius-small) var(--radius-small) var(--radius-main) var(--radius-main);
+            font-size: 18px;
+            font-family: 'Google Sans', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .fact-container {
+            display: none;
+            background-color: var(--md-sys-color-surface);
+            padding: 20px;
+            border-radius: 24px;
+            line-height: 1.5;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .bottom-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .social-btn.tg {
+            flex: 1; height: 64px;
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            display: flex; justify-content: center; align-items: center;
+            text-decoration: none; font-size: 24px;
+            border-radius: var(--radius-main) var(--radius-small) var(--radius-small) var(--radius-main);
+        }
+
+        .social-btn.tt {
+            flex: 1; height: 64px;
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            display: flex; justify-content: center; align-items: center;
+            text-decoration: none; font-size: 24px;
+            border-radius: var(--radius-small) var(--radius-main) var(--radius-main) var(--radius-small);
+        }
+
+        .theme-btn {
+            width: 64px; height: 64px;
+            background-color: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            border: none; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 24px; cursor: pointer;
+        }
+
+        .github-btn {
+            width: 100%;
+            height: 64px;
+            background-color: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 28px;
+            border-radius: 24px;
+            transition: background-color 0.3s;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <script src="script.js"></script>
+
+    <div class="container">
+        <div class="top-card">
+            <div class="main-text">sonuci <span class="hashtag">#батонбос</span></div>
+            <div class="secondary-text">Best Unity Modder</div>
+            <div class="image-time-row">
+                <img src="sonuci1.jpg" alt="Profile" class="profile-image">
+                <div class="time-wrapper">
+                    <div class="time-label">местное время</div>
+                    <div class="local-time" id="timeDisplay">00.00.00</div>
+                    <div class="warning-text" id="warningText">не писать!</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="action-button" id="getFactBtn">Случайный факт</button>
+
+        <div class="fact-container" id="factOutput"></div>
+
+        <div class="bottom-row">
+            <a href="https://t.me/Bozhechtozaidiot" target="_blank" class="social-btn tg"><i class="fa-brands fa-telegram"></i></a>
+            <a href="https://www.tiktok.com/@privet_gt" target="_blank" class="social-btn tt"><i class="fa-brands fa-tiktok"></i></a>
+            <button class="theme-btn" id="themeToggle"><i class="fas fa-palette"></i></button>
+        </div>
+
+        <a href="https://github.com/sexy-shkebede" target="_blank" class="github-btn">
+            <i class="fa-brands fa-github"></i>
+        </a>
+    </div>
+
+    <script>
+        // TIME
+        function updateTime() {
+            const display = document.getElementById('timeDisplay');
+            const warning = document.getElementById('warningText');
+            const now = new Date();
+            const moscowTime = new Intl.DateTimeFormat('ru-RU', {
+                timeZone: 'Europe/Moscow',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false
+            }).formatToParts(now);
+            const h = moscowTime.find(p => p.type === 'hour').value;
+            const m = moscowTime.find(p => p.type === 'minute').value;
+            const s = moscowTime.find(p => p.type === 'second').value;
+            display.textContent = `${h}.${m}.${s}`;
+            const hourInt = parseInt(h);
+            warning.style.display = (hourInt >= 0 && hourInt < 9) ? 'block' : 'none';
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // THEME
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+        });
+
+        // RANDOM FACTS
+        const factsList = [
+            "Факт №1: санука - лучший моддер игр на юнити",
+            "Факт №2: у меня ляжки такие вкусняшки",
+            "Факт №3: я фембо"
+        ];
+
+        const btn = document.getElementById('getFactBtn');
+        const output = document.getElementById('factOutput');
+        let lastIndices = [];
+
+        btn.addEventListener('click', () => {
+            output.style.display = 'none';
+            setTimeout(() => {
+                let randomIndex;
+                do {
+                    randomIndex = Math.floor(Math.random() * factsList.length);
+                } while (lastIndices.includes(randomIndex));
+                lastIndices.push(randomIndex);
+                if (lastIndices.length > 2) lastIndices.shift();
+                output.textContent = factsList[randomIndex];
+                output.style.display = 'block';
+            }, 300);
+        });
+    </script>
 </body>
 </html>
