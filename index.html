@@ -1,18 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=107289566', 'ym');
-
-    ym(107289566, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/107289566" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sonuci bio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -32,7 +21,6 @@
         }
 
         :root {
-            
             --md-sys-color-background: #1f1a1c;
             --md-sys-color-surface: #251e21;
             --md-sys-color-on-surface: #ece0e2;
@@ -41,13 +29,11 @@
             --md-sys-color-on-primary-container: #3e001d;
             --md-sys-color-error: #ffb4ab;
             --hashtag-color: #ffb1c8;
-            
             --radius-main: 28px;
             --radius-small: 8px; 
         }
 
         body.light-mode {
-            
             --md-sys-color-background: #fff1f3;
             --md-sys-color-surface: #fce8eb;
             --md-sys-color-on-surface: #201a1b;
@@ -68,7 +54,8 @@
             justify-content: center;
             min-height: 100vh;
             box-sizing: border-box;
-            transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: background-color 0.4s ease;
+            user-select: none; 
         }
 
         .container {
@@ -123,10 +110,7 @@
             font-family: 'Google Sans', sans-serif;
             font-weight: 500;
             cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
         }
-        
-        .action-button:active { transform: scale(0.98); }
 
         .fact-container {
             display: none;
@@ -143,23 +127,16 @@
             align-items: center;
         }
 
-        .social-btn.tg {
+        .social-btn.tg, .social-btn.tt {
             flex: 1; height: 64px;
             background-color: var(--md-sys-color-surface);
             color: var(--md-sys-color-on-surface);
             display: flex; justify-content: center; align-items: center;
             text-decoration: none; font-size: 24px;
-            border-radius: var(--radius-main) var(--radius-small) var(--radius-small) var(--radius-main);
         }
 
-        .social-btn.tt {
-            flex: 1; height: 64px;
-            background-color: var(--md-sys-color-surface);
-            color: var(--md-sys-color-on-surface);
-            display: flex; justify-content: center; align-items: center;
-            text-decoration: none; font-size: 24px;
-            border-radius: var(--radius-small) var(--radius-main) var(--radius-main) var(--radius-small);
-        }
+        .social-btn.tg { border-radius: var(--radius-main) var(--radius-small) var(--radius-small) var(--radius-main); }
+        .social-btn.tt { border-radius: var(--radius-small) var(--radius-main) var(--radius-main) var(--radius-small); }
 
         .theme-btn {
             width: 64px; height: 64px;
@@ -181,13 +158,12 @@
             text-decoration: none;
             font-size: 28px;
             border-radius: 24px;
-            transition: background-color 0.3s;
         }
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body>
+<body onclick="playAudio()"> <audio id="bgMusic" src="sound.mp3" loop preload="auto"></audio>
 
     <div class="container">
         <div class="top-card">
@@ -204,7 +180,6 @@
         </div>
 
         <button class="action-button" id="getFactBtn">Случайный факт</button>
-
         <div class="fact-container" id="factOutput"></div>
 
         <div class="bottom-row">
@@ -219,6 +194,20 @@
     </div>
 
     <script>
+        const audio = document.getElementById('bgMusic');
+        
+        
+        function playAudio() {
+            audio.play();
+            
+            document.body.removeAttribute('onclick');
+        }
+
+        
+        ['click', 'touchstart', 'mousemove', 'scroll'].forEach(evt => 
+            window.addEventListener(evt, playAudio, { once: true })
+        );
+
         function updateTime() {
             const display = document.getElementById('timeDisplay');
             const warning = document.getElementById('warningText');
@@ -230,44 +219,4 @@
             }).formatToParts(now);
             const h = moscowTime.find(p => p.type === 'hour').value;
             const m = moscowTime.find(p => p.type === 'minute').value;
-            const s = moscowTime.find(p => p.type === 'second').value;
-            display.textContent = `${h}.${m}.${s}`;
-            const hourInt = parseInt(h);
-            warning.style.display = (hourInt >= 0 && hourInt < 9) ? 'block' : 'none';
-        }
-        updateTime();
-        setInterval(updateTime, 1000);
-
-        
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-        });
-
-      
-        const factsList = [
-            "Факт №1: санука - лучший моддер игр на юнити",
-            "Факт №2: у меня ляжки такие вкусняшки",
-            "Факт №3: я фембо"
-        ];
-
-        const btn = document.getElementById('getFactBtn');
-        const output = document.getElementById('factOutput');
-        let lastIndices = [];
-
-        btn.addEventListener('click', () => {
-            output.style.display = 'none';
-            setTimeout(() => {
-                let randomIndex;
-                do {
-                    randomIndex = Math.floor(Math.random() * factsList.length);
-                } while (lastIndices.includes(randomIndex));
-                lastIndices.push(randomIndex);
-                if (lastIndices.length > 2) lastIndices.shift();
-                output.textContent = factsList[randomIndex];
-                output.style.display = 'block';
-            }, 300);
-        });
-    </script>
-</body>
-</html>
+            
