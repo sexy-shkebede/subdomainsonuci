@@ -1,20 +1,21 @@
-const canvas = document.getElementById('canvas');
+body { margin: 0; overflow: hidden; background: #f0f0f0; }
+#canvas { width: 100vw; height: 100vh; position: relative; }
 
-function createAvatar() {
-    const avatar = document.createElement('div');
-    avatar.className = 'avatar';
-    
-    // Случайная позиция по вертикали
-    avatar.style.top = Math.random() * 80 + 'vh';
-    
-    // Случайная скорость
-    avatar.style.animationDuration = (Math.random() * 3 + 2) + 's';
-    
-    canvas.appendChild(avatar);
-    
-    // Удаляем элемент после анимации
-    setTimeout(() => avatar.remove(), 6000);
+.avatar {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    background-image: url('sonuci.png');
+    background-size: contain;
+    animation: wave 1s infinite alternate, move 5s linear infinite;
 }
 
-// Создаем новую аватарку каждые 800мс
-setInterval(createAvatar, 800);
+@keyframes wave {
+    from { transform: rotate(-10deg); }
+    to { transform: rotate(10deg); }
+}
+
+@keyframes move {
+    0% { left: -100px; top: 20%; }
+    100% { left: 100vw; top: 60%; }
+}
