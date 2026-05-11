@@ -3,309 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>sonuci bio</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>Bounce Effect</title>
     <style>
-        @font-face {
-            font-family: 'Google Sans';
-            font-style: normal;
-            font-weight: 400;
-            src: local('Google Sans Regular'), local(GoogleSans-Regular), url(https://fonts.gstatic.com/s/googlesans/v5/4UaGrENHsxJlGDuGo1OIlL3Owp4.woff2) format("woff2");
-        }
-        
-        @font-face {
-            font-family: 'Google Sans';
-            font-style: normal;
-            font-weight: 500;
-            src: local('Google Sans Medium'), local('GoogleSans-Medium'), url(https://fonts.gstatic.com/s/googlesans/v11/4UabrENHsxJlGDuGo1OIlLU94YtzCwY.woff2) format('woff2');
-        }
-
-        :root {
-            --md-sys-color-background: #1f1a1c;
-            --md-sys-color-surface: #251e21;
-            --md-sys-color-on-surface: #ece0e2;
-            --md-sys-color-on-surface-variant: #d5c2c6;
-            --md-sys-color-primary-container: #ffd9e2;
-            --md-sys-color-on-primary-container: #3e001d;
-            --md-sys-color-error: #ffb4ab;
-            --hashtag-color: #ffb1c8;
-            --radius-main: 28px;
-            --radius-small: 8px; 
-        }
-
-        body.light-mode {
-            --md-sys-color-background: #fff1f3;
-            --md-sys-color-surface: #fce8eb;
-            --md-sys-color-on-surface: #201a1b;
-            --md-sys-color-on-surface-variant: #514347;
-            --md-sys-color-primary-container: #ffd9e2;
-            --md-sys-color-on-primary-container: #3e001d;
-            --md-sys-color-error: #ba1a1a;
-            --hashtag-color: #984061;
-        }
-
         body {
-            background-color: var(--md-sys-color-background);
-            color: var(--md-sys-color-on-surface);
-            font-family: 'Google Sans', sans-serif;
+            /* Тот самый розовый фон */
+            background-color: #1f1a1c; 
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-            box-sizing: border-box;
-            transition: background-color 0.4s ease;
-            overflow-x: hidden;
-        }
-
-        /* Слой для летающих аватарок */
-        #bouncing-area {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
+            padding: 0;
+            overflow: hidden; /* Чтобы не было полос прокрутки */
+            width: 100vw;
+            height: 100vh;
         }
 
         .bouncing-img {
             position: absolute;
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            object-fit: cover;
-            opacity: 0.4;
-            filter: grayscale(0.2);
-        }
-
-        .container {
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            position: relative;
-            z-index: 1; /* Контент поверх аватарок */
-        }
-
-        .top-card {
-            background-color: var(--md-sys-color-surface);
-            padding: 28px;
-            border-radius: var(--radius-main) var(--radius-main) var(--radius-small) var(--radius-small);
-        }
-
-        .main-text { font-size: 32px; font-weight: 500; margin-bottom: 2px; }
-        .hashtag { color: var(--hashtag-color); }
-
-        .secondary-text {
-            color: var(--md-sys-color-on-surface-variant);
-            font-size: 16px;
-            margin-bottom: 24px;
-        }
-
-        .image-time-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        }
-
-        .profile-image {
-            width: 100px;
-            height: 100px;
+            width: 80px; /* Размер аватарок можно поменять тут */
+            height: 80px;
             border-radius: 20px;
             object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-
-        .time-wrapper { text-align: right; }
-        .time-label { font-size: 11px; color: var(--md-sys-color-on-surface-variant); text-transform: uppercase; margin-bottom: 4px; }
-        .local-time { font-size: 36px; font-weight: 400; line-height: 1; }
-        .warning-text { color: var(--md-sys-color-error); font-size: 12px; font-weight: 500; text-transform: uppercase; margin-top: 8px; display: none; }
-
-        .action-button {
-            width: 100%;
-            padding: 20px;
-            background-color: var(--md-sys-color-primary-container);
-            color: var(--md-sys-color-on-primary-container);
-            border: none;
-            border-radius: var(--radius-small) var(--radius-small) var(--radius-main) var(--radius-main);
-            font-size: 18px;
-            font-family: 'Google Sans', sans-serif;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        
-        .action-button:active { transform: scale(0.98); }
-
-        .fact-container {
-            display: none;
-            background-color: var(--md-sys-color-surface);
-            padding: 20px;
-            border-radius: 24px;
-            line-height: 1.5;
-            animation: slideUp 0.3s ease-out;
-        }
-
-        .bottom-row {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .social-btn.tg, .social-btn.tt {
-            flex: 1; height: 64px;
-            background-color: var(--md-sys-color-surface);
-            color: var(--md-sys-color-on-surface);
-            display: flex; justify-content: center; align-items: center;
-            text-decoration: none; font-size: 24px;
-        }
-
-        .social-btn.tg { border-radius: var(--radius-main) var(--radius-small) var(--radius-small) var(--radius-main); }
-        .social-btn.tt { border-radius: var(--radius-small) var(--radius-main) var(--radius-main) var(--radius-small); }
-
-        .theme-btn {
-            width: 64px; height: 64px;
-            background-color: var(--md-sys-color-primary-container);
-            color: var(--md-sys-color-on-primary-container);
-            border: none; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 24px; cursor: pointer;
-        }
-
-        .discord-btn {
-            width: 100%;
-            height: 64px;
-            background-color: var(--md-sys-color-surface);
-            color: var(--md-sys-color-on-surface);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-decoration: none;
-            font-size: 28px;
-            border-radius: 24px;
-        }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
     <div id="bouncing-area"></div>
 
-    <div class="container">
-        <div class="top-card">
-            <div class="main-text">sonuci <span class="hashtag">#батонбос</span></div>
-            <div class="secondary-text">Best Unity Modder</div>
-            <div class="image-time-row">
-                <img src="sonuci1.png" alt="Profile" class="profile-image">
-                <div class="time-wrapper">
-                    <div class="time-label">местное время</div>
-                    <div class="local-time" id="timeDisplay">00.00.00</div>
-                    <div class="warning-text" id="warningText">не писать!</div>
-                </div>
-            </div>
-        </div>
-
-        <button class="action-button" id="getFactBtn">Случайный факт</button>
-        <div class="fact-container" id="factOutput"></div>
-
-        <div class="bottom-row">
-            <a href="https://t.me/sonuci" target="_blank" class="social-btn tg"><i class="fa-brands fa-telegram"></i></a>
-            <a href="https://www.tiktok.com/@sanukagtag" target="_blank" class="social-btn tt"><i class="fa-brands fa-tiktok"></i></a>
-            <button class="theme-btn" id="themeToggle"><i class="fas fa-palette"></i></button>
-        </div>
-
-        <a href="https://discord.com/users/100075272" target="_blank" class="discord-btn">
-            <i class="fa-brands fa-discord"></i>
-        </a>
-    </div>
-
     <script>
-        // --- DVD BOUNCING LOGIC ---
-        const area = document.getElementById('bouncing-area');
-        const imgCount = 6;
+        const area = document.body;
+        const imgCount = 8; // Количество аватарок
         const images = [];
 
+        // Создаем аватарки
         for (let i = 0; i < imgCount; i++) {
             const img = document.createElement('img');
-            img.src = 'sonuci1.png';
+            img.src = 'sonuci1.png'; // Твоя аватарка из корня
             img.className = 'bouncing-img';
             area.appendChild(img);
             
             images.push({
                 el: img,
-                x: Math.random() * (window.innerWidth - 60),
-                y: Math.random() * (window.innerHeight - 60),
-                dx: (Math.random() - 0.5) * 3,
-                dy: (Math.random() - 0.5) * 3
+                x: Math.random() * (window.innerWidth - 80),
+                y: Math.random() * (window.innerHeight - 80),
+                dx: (Math.random() - 0.5) * 4, // Скорость по X
+                dy: (Math.random() - 0.5) * 4  // Скорость по Y
             });
         }
 
         function animate() {
+            const winW = window.innerWidth;
+            const winH = window.innerHeight;
+
             images.forEach(obj => {
                 obj.x += obj.dx;
                 obj.y += obj.dy;
 
-                if (obj.x <= 0 || obj.x >= window.innerWidth - 60) obj.dx *= -1;
-                if (obj.y <= 0 || obj.y >= window.innerHeight - 60) obj.dy *= -1;
+                // Отскок от правой и левой стен
+                if (obj.x <= 0 || obj.x >= winW - 80) {
+                    obj.dx *= -1;
+                }
+                // Отскок от пола и потолка
+                if (obj.y <= 0 || obj.y >= winH - 80) {
+                    obj.dy *= -1;
+                }
 
                 obj.el.style.left = obj.x + 'px';
                 obj.el.style.top = obj.y + 'px';
             });
             requestAnimationFrame(animate);
         }
+
+        // Подстройка под изменение размера окна
+        window.addEventListener('resize', () => {
+            images.forEach(obj => {
+                if (obj.x > window.innerWidth) obj.x = window.innerWidth - 80;
+                if (obj.y > window.innerHeight) obj.y = window.innerHeight - 80;
+            });
+        });
+
         animate();
-
-        // --- TIME ---
-        function updateTime() {
-            const display = document.getElementById('timeDisplay');
-            const warning = document.getElementById('warningText');
-            const now = new Date();
-            const moscowTime = new Intl.DateTimeFormat('ru-RU', {
-                timeZone: 'Europe/Moscow',
-                hour: '2-digit', minute: '2-digit', second: '2-digit',
-                hour12: false
-            }).formatToParts(now);
-            const h = moscowTime.find(p => p.type === 'hour').value;
-            const m = moscowTime.find(p => p.type === 'minute').value;
-            const s = moscowTime.find(p => p.type === 'second').value;
-            display.textContent = `${h}.${m}.${s}`;
-            const hourInt = parseInt(h);
-            warning.style.display = (hourInt >= 0 && hourInt < 9) ? 'block' : 'none';
-        }
-        updateTime();
-        setInterval(updateTime, 1000);
-
-        // --- THEME ---
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-        });
-
-        // --- FACTS ---
-        const factsList = [
-            "Факт №1: санука - лучший моддер игр на юнити",
-            "Факт №2: у меня ляжки такие вкусняшки",
-            "Факт №3: я фембо"
-        ];
-
-        const btn = document.getElementById('getFactBtn');
-        const output = document.getElementById('factOutput');
-        let lastIndices = [];
-
-        btn.addEventListener('click', () => {
-            output.style.display = 'none';
-            setTimeout(() => {
-                let randomIndex;
-                do {
-                    randomIndex = Math.floor(Math.random() * factsList.length);
-                } while (lastIndices.includes(randomIndex));
-                lastIndices.push(randomIndex);
-                if (lastIndices.length > 2) lastIndices.shift();
-                output.textContent = factsList[randomIndex];
-                output.style.display = 'block';
-            }, 300);
-        });
     </script>
 </body>
 </html>
