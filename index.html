@@ -55,7 +55,6 @@
             min-height: 100vh;
             box-sizing: border-box;
             transition: background-color 0.4s ease;
-            user-select: none; 
         }
 
         .container {
@@ -110,7 +109,10 @@
             font-family: 'Google Sans', sans-serif;
             font-weight: 500;
             cursor: pointer;
+            transition: transform 0.1s;
         }
+        
+        .action-button:active { transform: scale(0.98); }
 
         .fact-container {
             display: none;
@@ -158,12 +160,13 @@
             text-decoration: none;
             font-size: 28px;
             border-radius: 24px;
+            transition: background-color 0.3s;
         }
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body onclick="playAudio()"> <audio id="bgMusic" src="sound.mp3" loop preload="auto"></audio>
+<body>
 
     <div class="container">
         <div class="top-card">
@@ -180,6 +183,7 @@
         </div>
 
         <button class="action-button" id="getFactBtn">Случайный факт</button>
+
         <div class="fact-container" id="factOutput"></div>
 
         <div class="bottom-row">
@@ -194,20 +198,7 @@
     </div>
 
     <script>
-        const audio = document.getElementById('bgMusic');
-        
-        
-        function playAudio() {
-            audio.play();
-            
-            document.body.removeAttribute('onclick');
-        }
-
-        
-        ['click', 'touchstart', 'mousemove', 'scroll'].forEach(evt => 
-            window.addEventListener(evt, playAudio, { once: true })
-        );
-
+        // Время
         function updateTime() {
             const display = document.getElementById('timeDisplay');
             const warning = document.getElementById('warningText');
@@ -219,4 +210,44 @@
             }).formatToParts(now);
             const h = moscowTime.find(p => p.type === 'hour').value;
             const m = moscowTime.find(p => p.type === 'minute').value;
-            
+            const s = moscowTime.find(p => p.type === 'second').value;
+            display.textContent = `${h}.${m}.${s}`;
+            const hourInt = parseInt(h);
+            warning.style.display = (hourInt >= 0 && hourInt < 9) ? 'block' : 'none';
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Тема
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+        });
+
+        // Факты
+        const factsList = [
+            "Факт №1: санука - лучший моддер игр на юнити",
+            "Факт №2: у меня ляжки такие вкусняшки",
+            "Факт №3: я фембо"
+        ];
+
+        const btn = document.getElementById('getFactBtn');
+        const output = document.getElementById('factOutput');
+        let lastIndices = [];
+
+        btn.addEventListener('click', () => {
+            output.style.display = 'none';
+            setTimeout(() => {
+                let randomIndex;
+                do {
+                    randomIndex = Math.floor(Math.random() * factsList.length);
+                } while (lastIndices.includes(randomIndex));
+                lastIndices.push(randomIndex);
+                if (lastIndices.length > 2) lastIndices.shift();
+                output.textContent = factsList[randomIndex];
+                output.style.display = 'block';
+            }, 300);
+        });
+    </script>
+</body>
+</html>
