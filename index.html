@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>sonuci bio</title>
+<meta name="description" content="sonuci #батонбос, Best Unity Modder. Telegram, TikTok, Discord.">
+<meta property="og:title" content="sonuci #батонбос">
+<meta property="og:description" content="Best Unity Modder">
+<meta property="og:image" content="https://sonuci.shkbd.su/sonuci1.png">
+<link rel="icon" href="sonuci1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&family=Unbounded:wght@200..900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=bakery_dining,dark_mode,light_mode,music_note,send,sports_esports&display=block">
+<script>
+  try{var t=localStorage.getItem('sonuci:theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}
+  document.documentElement.classList.add('pre');
+</script>
+<style>
+:root {
+  color-scheme: light dark;
+
+  /* палитра «батон»: золотая корка + синий + тёплый мякиш */
+  --bg:         light-dark(#F1F2F8, #12141D);
+  --on-bg:      light-dark(#191B26, #E7E8F3);
+  --on-bg-var:  light-dark(#4A4D5E, #A9ACC0);
+  --gold:       light-dark(#FFD23F, #F5C530);
+  --on-gold:    #2A1F00;
+  --blue:       light-dark(#2F4BE6, #3B54EE);
+  --on-blue:    #FFFFFF;
+  --bun:        light-dark(#FFE4B5, #3B2C14);
+  --on-bun:     light-dark(#3A2600, #FFE4B5);
+  --inverse:    light-dark(#1C1E2B, #E6E7F2);
+  --on-inverse: light-dark(#ECEDF7, #1C1E2B);
+  --deco:       light-dark(#FFD23F40, #F5C53014);
+
+  --emph: cubic-bezier(.2, 0, 0, 1);
+  --spring: cubic-bezier(.34, 1.5, .5, 1);
+  --spring-soft: cubic-bezier(.3, 1.15, .5, 1);
+}
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --spring: linear(0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 19.4%, 1.077 22.4%, 1.121 25.4%, 1.149 28.6%, 1.159 31.5%, 1.155 34.5%, 1.129 38.3%, 1.051 45.6%, 1.017 49.3%, 0.991 53.9%, 0.977 58.3%, 0.974 62.7%, 0.997 77.9%, 1.003 87.1%, 1);
+    --spring-soft: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001 85.9%, 1);
+  }
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+html { height: 100%; -webkit-text-size-adjust: 100%; background: var(--bg); }
+body {
+  min-height: 100%;
+  background: var(--bg); color: var(--on-bg);
+  font: 400 16px/1.5 'Onest', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) 0 env(safe-area-inset-left, 0px);
+  overflow-x: hidden;
+}
+button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+a { color: inherit; -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid var(--on-bg); outline-offset: 3px; }
+
+.ms {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal; font-style: normal; font-size: 24px; line-height: 1;
+  letter-spacing: normal; text-transform: none; white-space: nowrap; direction: ltr;
+  display: inline-block; width: 1em; overflow: hidden; user-select: none;
+  font-feature-settings: 'liga'; -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+}
+
+.deco { position: fixed; top: -140px; right: -170px; width: 460px; height: 460px; z-index: -1; pointer-events: none; }
+.deco path { fill: var(--deco); }
+
+.page {
+  max-width: 520px; margin: 0 auto;
+  padding: 16px 16px calc(128px + env(safe-area-inset-bottom, 0px));
+  display: grid; gap: 12px;
+}
+
+/* ---------- hero: аватар в волнистом кольце-секундомере ---------- */
+.hero {
+  background: var(--gold); color: var(--on-gold);
+  border-radius: 48px; padding: 28px 20px 30px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.ring-wrap { position: relative; width: min(62vw, 232px); aspect-ratio: 1; }
+.ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.ring path { fill: none; stroke-width: 6; stroke-linecap: round; }
+#ringTrack  { stroke: color-mix(in oklab, var(--on-gold) 20%, transparent); }
+#ringActive { stroke: var(--on-gold); }
+.avatar {
+  position: absolute; inset: 12.5%; padding: 0; border: 0; border-radius: 50%; overflow: hidden;
+  background: var(--on-gold); transition: transform .5s var(--spring);
+}
+.avatar:active { transform: scale(.92); }
+.avatar img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.av-fb { display: none; position: absolute; inset: 0; place-items: center; color: var(--gold); font: 900 64px/1 'Unbounded', sans-serif; }
+.noimg img { display: none; }
+.noimg .av-fb { display: grid; }
+
+.name {
+  display: flex; justify-content: center; margin-top: 18px;
+  font: 900 clamp(46px, 15vw, 84px)/1 'Unbounded', sans-serif; letter-spacing: -.035em;
+}
+.name span { display: inline-block; transition: transform .9s var(--spring), opacity .25s; transition-delay: calc(var(--i) * 55ms); }
+.pre .name span { transform: translateY(-70%) rotate(-14deg); opacity: 0; }
+.meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 16px; }
+.chip { padding: 7px 16px 8px; border-radius: 999px; font-size: 15px; font-weight: 650; }
+.chip-tag { background: var(--on-gold); color: var(--gold); }
+.chip-role { background: color-mix(in oklab, var(--on-gold) 12%, transparent); }
+
+/* ---------- время: стадион ---------- */
+.time {
+  background: var(--blue); color: var(--on-blue);
+  border-radius: 999px; padding: 22px 28px 24px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+.time-label { font-size: 14px; font-weight: 600; opacity: .8; }
+.digits { display: flex; font: 700 clamp(32px, 10vw, 50px)/1.1 'Unbounded', sans-serif; margin-top: 2px; }
+.dg { display: inline-block; width: .74em; text-align: center; }
+.dg.flip { animation: flip .45s var(--spring); }
+.sp { display: inline-block; width: .3em; text-align: center; opacity: .55; }
+@keyframes flip { from { transform: scaleY(.2) translateY(-25%); opacity: .2; } }
+.dnd {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 6px 14px 7px 10px;
+  border-radius: 999px; background: #FFFFFF; color: #C5221F; font-size: 15px; font-weight: 700;
+}
+.dnd::before { content: ''; width: 10px; height: 10px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px #C5221F33; }
+.dnd[hidden] { display: none; }
+
+/* ---------- случайный факт: FAB + соединённый пузырь ---------- */
+.fact-zone { display: grid; gap: 4px; }
+.fab {
+  height: 80px; width: 100%; padding: 0 28px; border: 0; border-radius: 28px;
+  background: var(--inverse); color: var(--on-inverse);
+  display: inline-flex; align-items: center; justify-content: center; gap: 14px;
+  font: 600 17px/1 'Unbounded', sans-serif;
+  transition: border-radius .55s var(--spring), transform .45s var(--spring);
+}
+.fab .ms { font-size: 34px; color: var(--gold); transition: transform .5s var(--spring); }
+.fab:hover .ms { transform: rotate(-18deg) scale(1.08); }
+.fab:active { transform: scale(.97); }
+.fact-zone.open .fab { border-radius: 28px 28px 8px 8px; }
+.bubble {
+  background: var(--bun); color: var(--on-bun);
+  border-radius: 8px 8px 32px 32px; padding: 20px 24px 24px;
+  font-size: 18px; line-height: 1.45; transform-origin: top center;
+}
+.bubble[hidden] { display: none; }
+.bubble.pop { animation: pop .6s var(--spring); }
+@keyframes pop { from { transform: scaleY(.4); opacity: 0; } }
+
+.foot { text-align: center; font-size: 14px; color: var(--on-bg-var); padding-top: 12px; }
+
+/* ---------- floating toolbar ---------- */
+.toolbar {
+  position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 10;
+  display: flex; align-items: center; gap: 2px; padding: 8px;
+  border-radius: 999px; background: var(--inverse); color: var(--on-inverse);
+  box-shadow: 0 14px 34px -12px rgb(0 0 0 / .5);
+  transform: translateX(-50%);
+  transition: transform .8s var(--spring) .25s;
+}
+.pre .toolbar { transform: translate(-50%, 160%); }
+.toolbar :focus-visible { outline-color: var(--gold); }
+.tb {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  min-width: 66px; padding: 4px 6px 2px; border: 0; background: none;
+  text-decoration: none; font-size: 11px; font-weight: 650; letter-spacing: .01em;
+}
+.tb .ind {
+  display: grid; place-items: center; width: 52px; height: 32px; border-radius: 16px;
+  transition: width .45s var(--spring), border-radius .45s var(--spring), background-color .2s, color .2s;
+}
+.tb:hover .ind { background: color-mix(in oklab, var(--on-inverse) 12%, transparent); }
+.tb:active .ind { width: 62px; border-radius: 10px; background: var(--gold); color: var(--on-gold); }
+.tb-div { width: 1px; height: 32px; margin: 0 4px; background: color-mix(in oklab, var(--on-inverse) 22%, transparent); }
+
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+@media (min-width: 600px) {
+  .page { padding-top: 32px; gap: 14px; }
+  .hero { padding: 36px 32px 38px; border-radius: 56px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
+}
+</style>
+</head>
+<body>
+<svg class="deco" viewBox="0 0 1 1" aria-hidden="true" focusable="false"><path id="decoPath"/></svg>
+
+<main class="page">
+  <section class="hero">
+    <div class="ring-wrap">
+      <svg class="ring" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+        <path id="ringTrack" pathLength="1"/>
+        <path id="ringActive" pathLength="1"/>
+      </svg>
+      <button class="avatar" id="avatarBtn" type="button" aria-label="Тыкнуть sonuci">
+        <img src="sonuci1.png" alt="Аватарка sonuci" width="174" height="174"
+             onerror="if(!this.dataset.f){this.dataset.f=1;this.src='https://sonuci.shkbd.su/sonuci1.png'}else{this.parentNode.classList.add('noimg')}">
+        <span class="av-fb" aria-hidden="true">S</span>
+      </button>
+    </div>
+    <h1 class="name" aria-label="sonuci"><span style="--i:0" aria-hidden="true">s</span><span style="--i:1" aria-hidden="true">o</span><span style="--i:2" aria-hidden="true">n</span><span style="--i:3" aria-hidden="true">u</span><span style="--i:4" aria-hidden="true">c</span><span style="--i:5" aria-hidden="true">i</span></h1>
+    <div class="meta">
+      <span class="chip chip-tag">#батонбос</span>
+      <span class="chip chip-role">Best Unity Modder</span>
+    </div>
+  </section>
+
+  <section class="time" aria-label="Местное время">
+    <span class="time-label">местное время</span>
+    <div class="digits" role="timer"><span class="dg">0</span><span class="dg">0</span><span class="sp">.</span><span class="dg">0</span><span class="dg">0</span><span class="sp">.</span><span class="dg">0</span><span class="dg">0</span></div>
+    <span class="dnd" id="dnd" hidden>не писать!</span>
+  </section>
+
+  <section class="fact-zone" id="factZone">
+    <button class="fab" id="factBtn" type="button" aria-controls="factBubble"><span class="ms">bakery_dining</span>Случайный факт</button>
+    <p class="bubble" id="factBubble" aria-live="polite" hidden></p>
+  </section>
+
+  <footer class="foot">sonuci.shkbd.su, 2026</footer>
+</main>
+
+<nav class="toolbar" aria-label="Ссылки">
+  <a class="tb" href="https://t.me/sonuci" target="_blank" rel="noopener"><span class="ind"><span class="ms">send</span></span>Telegram</a>
+  <a class="tb" href="https://www.tiktok.com/@sanukagtag" target="_blank" rel="noopener"><span class="ind"><span class="ms">music_note</span></span>TikTok</a>
+  <a class="tb" href="https://discord.com/users/100075272" target="_blank" rel="noopener"><span class="ind"><span class="ms">sports_esports</span></span>Discord</a>
+  <span class="tb-div" aria-hidden="true"></span>
+  <button class="tb" id="themeBtn" type="button" aria-label="Сменить тему"><span class="ind"><span class="ms" id="themeIcon">dark_mode</span></span>Тема</button>
+</nav>
+
+<script>
+(() => {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+  const root = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+
+  /* ================= НАСТРОЙКИ ================= */
+  const TZ = 'Europe/Moscow';     // чьё время показывать
+  const DND_FROM = 0, DND_TO = 9; // «не писать!» видно с 0:00 до 9:00
+
+  const FACTS = [
+    'Этот сайт висит на поддомене shkbd.su.',
+    'Unity впервые показали в 2005 году на WWDC, и сначала движок работал только на Mac.',
+    'Слово «батон» пришло из французского: bâton значит «палка».',
+    'Gorilla Tag, Among Us, Hollow Knight и Pokémon GO сделаны на Unity.',
+    'В Unity вверх смотрит ось Y, а в Unreal — ось Z.',
+    'Mathf.PI в Unity — это float, а не double.',
+    'Слово «мод» — сокращение от английского modification.',
+    'Тетрис придумал Алексей Пажитнов в 1984 году в вычислительном центре Академии наук СССР.',
+    'Самая продаваемая игра в истории — Minecraft.',
+    'Первую версию Minecraft написали примерно за шесть дней.',
+    'Первая коммерческая видеоигра, Computer Space, вышла в 1971 году.',
+    'Навигационную цепочку на сайтах называют breadcrumbs, «хлебные крошки», в честь сказки про Гензеля и Гретель.',
+    'Лепёшкам из дикого зерна, найденным в Иордании, около 14 тысяч лет.',
+    'Mono, на котором Unity исполняет C#, — открытая реализация .NET.'
+  ];
+
+  /* ================= expressive shapes ================= */
+  const polar = (n, a, N = 200) => {
+    let d = '';
+    for (let i = 0; i < N; i++) {
+      const th = (i / N) * Math.PI * 2;
+      const r = (1 + a * Math.cos(n * th)) / (1 + a);
+      d += (i ? 'L' : 'M') + (0.5 + 0.5 * r * Math.cos(th)).toFixed(4) + ' ' + (0.5 + 0.5 * r * Math.sin(th)).toFixed(4);
+    }
+    return d + 'Z';
+  };
+  $('#decoPath').setAttribute('d', polar(12, 0.07));
+
+  /* ================= волнистое кольцо-секундомер (M3 wavy progress) ================= */
+  const ringA = $('#ringActive'), ringT = $('#ringTrack');
+  const R = 88, K = 14, N = 240, GAP = 0.025, AMP = 3.6;
+  ringT.setAttribute('d', `M100 ${100 - R}A${R} ${R} 0 1 1 100 ${100 + R}A${R} ${R} 0 1 1 100 ${100 - R}`);
+  const wavy = (a, ph) => {
+    let d = '';
+    for (let i = 0; i <= N; i++) {
+      const t = i / N, th = -Math.PI / 2 + t * Math.PI * 2;
+      const r = R + a * Math.sin(K * t * Math.PI * 2 + ph);
+      d += (i ? 'L' : 'M') + (100 + r * Math.cos(th)).toFixed(2) + ' ' + (100 + r * Math.sin(th)).toFixed(2);
+    }
+    return d;
+  };
+  let amp = reduce ? AMP : 0, ampV = 0, phase = 0, last = 0, introAt = 0;
+  const setRing = (p, a, ph) => {
+    ringA.setAttribute('d', wavy(a, ph));
+    ringA.style.strokeDasharray = `${p} 1`;
+    ringT.style.strokeDasharray = `0 ${p + GAP} ${Math.max(0, 1 - p - 2 * GAP)} 1`;
+  };
+  const secFrac = () => { const d = new Date(); return (d.getSeconds() + d.getMilliseconds() / 1000) / 60; };
+  setRing(reduce ? secFrac() : 0, amp, 0);
+
+  const frame = (now) => {
+    if (!last) { last = now; introAt = now; }
+    const dt = Math.min(0.05, (now - last) / 1000);
+    last = now;
+    ampV += (170 * (AMP - amp) - 11 * ampV) * dt;   // пружина амплитуды
+    amp += ampV * dt;
+    phase -= dt * 2.4;                               // волна бежит по кругу
+    const it = Math.min(1, (now - introAt) / 1100);
+    setRing(secFrac() * (1 - Math.pow(1 - it, 3)), amp, phase);
+    requestAnimationFrame(frame);
+  };
+  if (reduce) setInterval(() => setRing(secFrac(), AMP, 0), 1000);
+
+  $('#avatarBtn').addEventListener('click', () => { ampV += 95; });
+
+  /* ================= часы ================= */
+  const digitEls = Array.from(document.querySelectorAll('.digits .dg'));
+  const dnd = $('#dnd');
+  const opts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' };
+  let fmt;
+  try { fmt = new Intl.DateTimeFormat('ru-RU', Object.assign({ timeZone: TZ }, opts)); }
+  catch (e) { fmt = new Intl.DateTimeFormat('ru-RU', opts); }
+  const tick = () => {
+    const parts = fmt.formatToParts(new Date());
+    const get = (t) => ((parts.find((p) => p.type === t) || { value: '0' }).value).padStart(2, '0');
+    const h = get('hour'), s = h + get('minute') + get('second');
+    for (let i = 0; i < 6; i++) {
+      const el = digitEls[i], c = s[i];
+      if (el.textContent !== c) {
+        el.textContent = c;
+        if (!reduce) { el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip'); }
+      }
+    }
+    const hour = parseInt(h, 10);
+    dnd.hidden = !(hour >= DND_FROM && hour < DND_TO);
+    setTimeout(tick, 1000 - (Date.now() % 1000) + 5);
+  };
+  tick();
+
+  /* ================= случайный факт ================= */
+  const zone = $('#factZone'), bubble = $('#factBubble'), factBtn = $('#factBtn');
+  let recent = [];
+  const nextFact = () => {
+    let i, guard = 0;
+    do { i = Math.floor(Math.random() * FACTS.length); } while (recent.includes(i) && ++guard < 50);
+    recent.push(i);
+    if (recent.length > Math.min(2, FACTS.length - 1)) recent.shift();
+    return FACTS[i];
+  };
+  factBtn.addEventListener('click', () => {
+    const text = nextFact();
+    if (bubble.hidden) {
+      bubble.textContent = text;
+      bubble.hidden = false;
+      zone.classList.add('open');
+      bubble.classList.remove('pop'); void bubble.offsetWidth; bubble.classList.add('pop');
+      return;
+    }
+    if (reduce || !bubble.animate) { bubble.textContent = text; return; }
+    bubble.animate(
+      [{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(.94)', opacity: 0, offset: .4 }, { transform: 'scale(1)', opacity: 1 }],
+      { duration: 520, easing: 'cubic-bezier(.3,1.3,.5,1)' }
+    );
+    setTimeout(() => { bubble.textContent = text; }, 200);
+  });
+
+  /* ================= тема (шторка снизу) ================= */
+  const themeBtn = $('#themeBtn'), themeIcon = $('#themeIcon');
+  const mq = matchMedia('(prefers-color-scheme: dark)');
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : mq.matches);
+  const syncIcon = () => { themeIcon.textContent = isDark() ? 'light_mode' : 'dark_mode'; };
+  syncIcon();
+  if (mq.addEventListener) mq.addEventListener('change', syncIcon); else if (mq.addListener) mq.addListener(syncIcon);
+  themeBtn.addEventListener('click', () => {
+    const next = isDark() ? 'light' : 'dark';
+    const apply = () => { root.dataset.theme = next; store.set('sonuci:theme', next); syncIcon(); };
+    if (!document.startViewTransition || reduce) { apply(); return; }
+    const vt = document.startViewTransition(apply);
+    vt.ready.then(() => {
+      root.animate(
+        { clipPath: ['inset(100% 0 0 0)', 'inset(0 0 0 0)'] },
+        { duration: 700, easing: 'cubic-bezier(.2,0,0,1)', pseudoElement: '::view-transition-new(root)' }
+      );
+    }).catch(() => {});
+  });
+
+  /* ================= вступление: буквы падают, кольцо набирает секунды ================= */
+  const intro = () => requestAnimationFrame(() => {
+    root.classList.remove('pre');
+    if (!reduce) requestAnimationFrame(frame);
+  });
+  const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  Promise.race([fontsReady, new Promise((r) => setTimeout(r, 1200))]).then(intro, intro);
+})();
+</script>
+</body>
+</html>
