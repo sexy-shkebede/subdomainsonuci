@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ru" data-theme="dusk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>shkbd@holin: ~</title>
+<meta name="description" content="Wenduyx aka shkbd: android modding, security research, infra, material design.">
+<meta name="theme-color" content="#0d0918">
+<meta property="og:title" content="shkbd@holin">
+<meta property="og:description" content="Wenduyx aka shkbd: android modding, security research, infra.">
+<link rel="icon" href="avatar.jpg">
+<link rel="apple-touch-icon" href="avatar.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@200;400;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<script>try{var t=localStorage.getItem('shkbd-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+</head>
+<body>
+<canvas id="wall" aria-hidden="true"></canvas>
+
+<header class="bar">
+  <div class="bar-l">
+    <nav class="ws" aria-label="Рабочие столы">
+      <button type="button" class="ws-btn on" data-ws="1" aria-current="true">1</button>
+      <button type="button" class="ws-btn" data-ws="2" aria-current="false">2</button>
+      <button type="button" class="ws-btn" data-ws="3" aria-current="false">3</button>
+    </nav>
+    <span class="mod hide-sm" title="Память">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="4" width="12" height="7" rx="1.2"/><path d="M5 6.5v2M8 6.5v2M11 6.5v2M4 11v2M6.7 11v2M9.3 11v2M12 11v2"/></svg>
+      <span id="m-ram">3.94 GiB</span>
+    </span>
+    <span class="mod hide-sm" title="Процессор">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="4" y="4" width="8" height="8" rx="1.2"/><rect x="6.4" y="6.4" width="3.2" height="3.2" rx=".4"/><path d="M6 1.8V4M10 1.8V4M6 12v2.2M10 12v2.2M1.8 6H4M1.8 10H4M12 6h2.2M12 10h2.2"/></svg>
+      <span id="m-cpu">3%</span>
+    </span>
+    <button type="button" class="mod mod-btn" id="m-theme" title="Сменить тему">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="5.8"/><path d="M8 2.2a5.8 5.8 0 0 1 0 11.6z" fill="currentColor" stroke="none"/></svg>
+      <span id="m-theme-name">dusk</span>
+    </button>
+  </div>
+
+  <div class="bar-c">
+    <div class="mod music">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 12.2V3.6l7-1.6v8.6"/><circle cx="4.4" cy="12.2" r="1.7"/><circle cx="11.4" cy="10.6" r="1.7"/></svg>
+      <span class="track hide-sm" id="m-track"></span>
+      <button type="button" class="mbtn hide-sm" id="m-prev" aria-label="Предыдущий трек"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3.5v9"/><path d="M12.5 3.5 6 8l6.5 4.5z" fill="currentColor" stroke="none"/></svg></button>
+      <button type="button" class="mbtn" id="m-play" aria-label="Пауза"></button>
+      <button type="button" class="mbtn hide-sm" id="m-next" aria-label="Следующий трек"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12 3.5v9"/><path d="M3.5 3.5 10 8l-6.5 4.5z" fill="currentColor" stroke="none"/></svg></button>
+    </div>
+  </div>
+
+  <div class="bar-r">
+    <span class="mod hide-md">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1.8 6.2a9 9 0 0 1 12.4 0M4 8.7a5.8 5.8 0 0 1 8 0M6.2 11.1a2.6 2.6 0 0 1 3.6 0"/><circle cx="8" cy="13.2" r=".9" fill="currentColor" stroke="none"/></svg>
+      <span>holin.im</span>
+    </span>
+    <span class="mod hide-md"><span class="arr">↑</span><span id="m-up">5 KB/s</span></span>
+    <span class="mod hide-md"><span class="arr">↓</span><span id="m-down">1.5 MB/s</span></span>
+    <span class="mod">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M8 4.8V8l2.2 1.6"/></svg>
+      <span id="m-clock">--:--</span><span class="hide-sm" id="m-date"></span>
+    </span>
+    <span class="mod" id="m-bat-wrap" title="Батарея">
+      <svg viewBox="0 0 20 12" class="bat" aria-hidden="true"><rect x="1" y="1.5" width="15" height="9" rx="2"/><rect x="17" y="4" width="1.8" height="4" rx=".6" fill="currentColor" stroke="none"/><rect id="bat-fill" x="2.8" y="3.3" width="7" height="5.4" rx="1" fill="currentColor" stroke="none"/></svg>
+      <span id="m-bat">60%</span>
+    </span>
+  </div>
+</header>
+
+<main class="desk" id="desk" data-ws="1">
+  <div class="tiles">
+    <section class="win term focused" id="w-term" aria-label="Терминал">
+      <div class="term-body" id="term-body">
+        <div class="out" id="out" role="log" aria-live="polite"></div>
+        <form class="line input-line" id="cmd-form" autocomplete="off"><span id="prompt"></span><span id="typed"></span><input id="cmd" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="send" aria-label="Команда терминала"></form>
+      </div>
+      <div class="chips" id="chips" aria-label="Быстрые команды"></div>
+    </section>
+
+    <div class="side">
+      <section class="win htop" id="w-htop" aria-label="htop"><pre id="htop"></pre></section>
+      <section class="win ranger" id="w-ranger" tabindex="0" aria-label="Файлы, ranger"></section>
+      <section class="win cava" id="w-cava" aria-label="Визуализатор cava"><canvas id="cava" aria-hidden="true"></canvas></section>
+    </div>
+  </div>
+
+  <div class="conky" id="conky">
+    <div class="conky-time" id="conky-time">--:--</div>
+    <div class="conky-date" id="conky-date"></div>
+    <button type="button" class="conky-back" data-goto="1">тут пусто, вернуться на 1</button>
+  </div>
+</main>
+
+<noscript><p class="nojs">тут терминал на javascript, включи его и обнови страницу</p></noscript>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
